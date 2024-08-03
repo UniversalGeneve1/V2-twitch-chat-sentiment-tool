@@ -31,7 +31,7 @@ filename = f"{streamer_dir_root}/raw/RAW_{streamer}_{todays_date}_{time_of_trigg
 os.makedirs(os.path.dirname(filename), exist_ok=True)
 
 with open(filename, 'a+') as f:
-	chat = ChatDownloader().get_chat(url, inactivity_timeout=300)
+	chat = ChatDownloader().get_chat(url, inactivity_timeout=600)
 	for message in chat:     
 		f.write(json.dumps(message) + "\n")
 		chat.print_formatted(message) #terminal check
