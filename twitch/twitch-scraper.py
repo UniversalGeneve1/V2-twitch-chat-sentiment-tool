@@ -29,7 +29,7 @@ print(f"{streamer} has gone live! Starting scrape")
 filename = init_streamer_files(streamer)
 
 with open(filename, 'a+') as f:
-	chat = ChatDownloader().get_chat(url, inactivity_timeout=600)
+	chat = ChatDownloader().get_chat(url, inactivity_timeout=300)
 	for message in chat:     
 		f.write(json.dumps(message) + "\n")
 		chat.print_formatted(message) #terminal check
