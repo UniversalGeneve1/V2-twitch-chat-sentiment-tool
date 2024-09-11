@@ -15,8 +15,8 @@ def init_streamer_files(streamer):
 	filename = f"{streamer_dir_root}/raw/RAW_{streamer}_{todays_date}_{time_of_trigger}.jsonl"
 	os.makedirs(os.path.dirname(filename), exist_ok=True)
 	return filename
-	
-	
+# no need to add source data, since the function runs within 
+#the media source directory		
 
 def write_to_store(platform, streamer, data, write_stage):
 	#ensure dirs exist:

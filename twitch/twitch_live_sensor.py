@@ -9,7 +9,6 @@ def twitch_sensor_check(channel):
 	
 	for ln in status:
 		if 'isLiveBroadcast' in ln.text:
-			print(f"FLAG: True; sensor code: {response.status_code}")
 			return True
-	print(f"FLAG: False; sensor code: {response.status_code}")
+	print(f"SENSOR ERROR: thrown code: {response.status_code}")
 	return False
