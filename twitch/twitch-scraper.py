@@ -10,7 +10,6 @@ from common_utils import init_streamer_files, write_to_store
 
 streamer = (sys.argv[1]).lower() 
 url = f"https://www.twitch.tv/{streamer}"
-
 streamer_data = f"data/{streamer}"
 streamer_store = f"/mnt/NASpipe/twitch/data/{streamer}"
 
@@ -19,6 +18,7 @@ streamer_store = f"/mnt/NASpipe/twitch/data/{streamer}"
 # once live, generate files then start scrape, 
 #   timeout will handle termination of scrape
 # write to nas
+
 while twitch_sensor_check(url) == False:
 	print(f"{streamer} not live")
 	sleep((29 + random.uniform(0, 5)))
