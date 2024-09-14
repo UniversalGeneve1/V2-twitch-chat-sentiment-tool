@@ -26,6 +26,7 @@ while twitch_sensor_check(url) == False:
 	
 print(f"{streamer} has gone live! Starting scrape")
 
+
 filename = init_streamer_files(streamer)
 
 with open(filename, 'a+') as f:
@@ -36,6 +37,7 @@ with open(filename, 'a+') as f:
 	print(f"{streamer} is offline, done scraping")
 
 print(f"scrape complete, writing {streamer}'s data into NAS:")
+
 
 write_to_store("twitch", streamer, filename, "raw")
 
