@@ -12,6 +12,7 @@ base_dir = f"data/{streamer}/preprocessed"
 bot_names = [
 	'nightbot',
 	'fossabot',
+	'streamlabs',
 	'streamelements',
 	'nightbot',
 	'moobot',
@@ -19,7 +20,9 @@ bot_names = [
 	'sery_bot',
 	'kofistreambot',
 	'songlistbot',
-	'irltoolkit'	
+	'irltoolkit',
+	'lolrankbot',
+	'soundalerts'
 ]
 
 col_names = [
@@ -76,7 +79,6 @@ files_to_run = [f for f in os.listdir(f"data/{streamer}/raw") if f not in ran_fi
 
 for f2r in files_to_run: 
 	file_loc = f"data/{streamer}/raw/{f2r}"
-	print(file_loc)
 	file_id_name = "PREPROC_" + f2r.split(".")[0][4:]
 	landing_file = f"{base_dir}/{file_id_name}.csv"
 
