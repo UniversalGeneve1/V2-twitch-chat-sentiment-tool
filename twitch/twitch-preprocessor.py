@@ -9,14 +9,17 @@ from common_utils import write_to_store
 streamer = (sys.argv[1]).lower() 
 base_dir = f"data/{streamer}/preprocessed"
 
-
 bot_names = [
 	'nightbot',
 	'fossabot',
 	'streamelements',
 	'nightbot',
 	'moobot',
-	'pokemoncommunitygame'
+	'pokemoncommunitygame',
+	'sery_bot',
+	'kofistreambot',
+	'songlistbot',
+	'irltoolkit'	
 ]
 
 col_names = [
