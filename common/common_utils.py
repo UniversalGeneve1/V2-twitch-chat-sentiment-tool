@@ -7,27 +7,34 @@ nas_base_dir = "/mnt/NASpipe"
 
 #helper:
 def init_file(fp):
+	
 	file_path = Path(fp)
 	file_path.parent.mkdir(parents=True, exist_ok=True)
 	file_path.touch(exist_ok=True)
 
+
 def init_streamer_files(streamer, stages=stages):
+	
 	todays_date = datetime.now().strftime('%Y-%m-%d')
 	time_of_trigger = datetime.now().strftime('%H%M%S')
 	streamer_dir_root = f"data/{streamer}"
 
 	#init all dirs, tracking files and raw write file
-	[init_file(f"{streamer_dir_root}/{stage}/tracking.txt") for stage in stages]	
+	for stage in stages:
+		init_file(f"{streamer_dir_root}/{stage}/tracking.txt")
+		
 	raw_fn= f"{streamer_dir_root}/raw/RAW_{streamer}_{todays_date}_{time_of_trigger}.jsonl"
+	
 	return raw_fn
 	
 	
 def ensure_dirs(write_stage, platform, streamer, nas_base_dir=nas_base_dir, stages=stages):
+	
 	if write_stage.lower() not in stages:
 		raise ValueError("invalid write stage")
 		
-	[os.makedirs(f"{nas_base_dir}/{platform}/{streamer}/{stage}", exist_ok=True) for stage in stages]
-	
+	for stage in stages:
+		os.makedirs(f"{nas_base_dir}/{platform}/{streamer}/{stage}", exist_ok=True)
 	
 	
 def write_to_store(platform, streamer, data, write_stage, stages=stages):
@@ -62,8 +69,8 @@ def write_to_store(platform, streamer, data, write_stage, stages=stages):
 
 def read_files_to_process(input_stg, streamer, stages=stages):
 	"""
-		When a filename is written on its stage's tracking file, it has
-		been processed 
+		When a filename is written on its write_stage's tracking file, 
+		it has been processed.
 	"""
 	ran_files = []
 	
