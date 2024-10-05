@@ -40,4 +40,3 @@ print(f"scrape complete, writing {streamer}'s data into NAS:")
 
 
 write_to_store("twitch", streamer, filename, "raw")
-

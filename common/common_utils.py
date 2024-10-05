@@ -1,11 +1,17 @@
 from datetime import datetime
 from pathlib import Path
 import os, shutil
+import nltk
+nltk.download('stopwords')
+from nltk.corpus import stopwords
 
+
+#vars
 stages = ['raw', 'preprocessed', 'insights']
 nas_base_dir = "/mnt/NASpipe"	
 
-#helper:
+
+#helper to initialize files in a specific directory location:
 def init_file(fp):
 	
 	file_path = Path(fp)
@@ -13,6 +19,7 @@ def init_file(fp):
 	file_path.touch(exist_ok=True)
 
 
+#initialize 'raw' data file and all tracking files in case new streamer
 def init_streamer_files(streamer, stages=stages):
 	
 	todays_date = datetime.now().strftime('%Y-%m-%d')
@@ -27,7 +34,8 @@ def init_streamer_files(streamer, stages=stages):
 	
 	return raw_fn
 	
-	
+
+# ensure directories exists in the nas, helper for write to store	
 def ensure_dirs(write_stage, platform, streamer, nas_base_dir=nas_base_dir, stages=stages):
 	
 	if write_stage.lower() not in stages:
@@ -36,7 +44,8 @@ def ensure_dirs(write_stage, platform, streamer, nas_base_dir=nas_base_dir, stag
 	for stage in stages:
 		os.makedirs(f"{nas_base_dir}/{platform}/{streamer}/{stage}", exist_ok=True)
 	
-	
+
+#write the data and tracking into NAS after performing stage process	
 def write_to_store(platform, streamer, data, write_stage, stages=stages):
 	
 	ensure_dirs(write_stage, platform, streamer)
@@ -67,8 +76,10 @@ def write_to_store(platform, streamer, data, write_stage, stages=stages):
 		print(f"Error moving tracking file: {e}")
 		
 
+#read the previous stage data into the stage
 def read_files_to_process(input_stg, streamer, stages=stages):
 	"""
+		Note to remember:
 		When a filename is written on its write_stage's tracking file, 
 		it has been processed.
 	"""
@@ -80,35 +91,3 @@ def read_files_to_process(input_stg, streamer, stages=stages):
 
 	return [f for f in os.listdir(f"data/{streamer}/{input_stg}") if f not in ran_files and f!= 'tracking.txt']
 	
-	
-	
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
