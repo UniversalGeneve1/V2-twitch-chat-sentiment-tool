@@ -52,9 +52,9 @@ def data_impute(obj, key):
 		return obj[key]
 	return None
 
-def process_twitch_user_badge_data(badges):
+def process_twitch_user_badge_data(data):
 	badge_data = []
-	if 'badges' in badges:
+	if 'badges' in data:
 		padding = 4 - len(badges['badges'])
 		for b in badges['badges']:
 			[badge_data.append(data_impute(b, k)) for k in ['name', 'title']]
