@@ -35,7 +35,9 @@ def init_streamer_files(streamer, stages=stages):
 	return raw_fn
 	
 
-# ensure directories exists in the nas, helper for write to store	
+# ensure directories exists in the nas, helper for write to store
+# you can skip calling this if the nes does not exist
+	
 def ensure_dirs(write_stage, platform, streamer, nas_base_dir=nas_base_dir, stages=stages):
 	
 	if write_stage.lower() not in stages:
@@ -48,13 +50,17 @@ def ensure_dirs(write_stage, platform, streamer, nas_base_dir=nas_base_dir, stag
 #write the data and tracking into NAS after performing stage process	
 def write_to_store(platform, streamer, data, write_stage, stages=stages):
 	
-	ensure_dirs(write_stage, platform, streamer)
+	#set conditionals for nas
+	if os.path.exists(nas_base_dir):
+		destination = f"{nas_base_dir}/{platform}/{streamer}/{write_stage}"
+		ensure_dirs(write_stage, platform, streamer)
+	else:
+		destination = f"data/{streamer}/{write_stage}"
+
 
 	# tracking file:
 	trk_file = f"data/{streamer}/{write_stage}/tracking.txt"
 	
-	# point to NAS in appropriate level
-	destination = f"{nas_base_dir}/{platform}/{streamer}/{write_stage}"
 	
 	# copy file into NAS
 	try:
