@@ -55,8 +55,8 @@ def data_impute(obj, key):
 def process_twitch_user_badge_data(data):
 	badge_data = []
 	if 'badges' in data:
-		padding = 4 - len(badges['badges'])
-		for b in badges['badges']:
+		padding = 4 - len(data['badges'])
+		for b in data['badges']:
 			[badge_data.append(data_impute(b, k)) for k in ['name', 'title']]
 		badge_data = badge_data + (padding * [None, None]) #pad with None if user has less than 4 badges 
 	else:
