@@ -65,28 +65,30 @@ def process_twitch_user_badge_data(data):
 
 
 ### MAIN:
-files_to_run = read_files_to_process("raw", streamer)
 
-for f2r in files_to_run: 
-	file_loc = f"data/{streamer}/raw/{f2r}"
-	file_id_name = "PREPROC_" + f2r.split(".")[0][4:]
-	landing_file = f"data/{streamer}/preprocessed/{file_id_name}.csv"
+if __name__ == "__main__":
+	files_to_run = read_files_to_process("raw", streamer)
+	print(files_to_run)
+	for f2r in files_to_run: 
+		file_loc = f"data/{streamer}/raw/{f2r}"
+		file_id_name = "PREPROC_" + f2r.split(".")[0][4:]
+		landing_file = f"data/{streamer}/preprocessed/{file_id_name}.csv"
 
-	data = []	
-	with open(file_loc, 'r') as file:
-		for line in file:
-			row = []
-			json_object = json.loads(line.strip())
-			if (json_object['author']['display_name']).lower() in bot_names:
-				continue
-			[row.append(data_impute(json_object, x)) for x in col_names[:9]] #first 9 cols are top level
-			[row.append(data_impute(json_object['author'], x)) for x in col_names[9:12]] # cols 10-12 are in author object
-			row = row + process_twitch_user_badge_data(json_object['author'])
-			data.append(row)
-			
-	df = pd.DataFrame(data, columns=col_names)
-	df['timestamp'] = pd.to_datetime(df['timestamp']/1000, unit = 'ms')
-	#print(df)
+		data = []	
+		with open(file_loc, 'r') as file:
+			for line in file:
+				row = []
+				json_object = json.loads(line.strip())
+				if (json_object['author']['display_name']).lower() in bot_names:
+					continue
+				[row.append(data_impute(json_object, x)) for x in col_names[:9]] #first 9 cols are top level
+				[row.append(data_impute(json_object['author'], x)) for x in col_names[9:12]] # cols 10-12 are in author object
+				row = row + process_twitch_user_badge_data(json_object['author'])
+				data.append(row)
+				
+		df = pd.DataFrame(data, columns=col_names)
+		df['timestamp'] = pd.to_datetime(df['timestamp']/1000, unit = 'ms')
+		#print(df)
 
-	df.to_csv(landing_file)
-	write_to_store("twitch", streamer, landing_file, "preprocessed")
+		df.to_csv(landing_file)
+		write_to_store("twitch", streamer, landing_file, "preprocessed")

@@ -1,6 +1,6 @@
 from datetime import datetime
 from pathlib import Path
-import os, shutil
+import os, shutil, traceback
 import nltk
 nltk.download('stopwords')
 from nltk.corpus import stopwords
@@ -62,12 +62,14 @@ def write_to_store(platform, streamer, data, write_stage, stages=stages):
 	trk_file = f"data/{streamer}/{write_stage}/tracking.txt"
 	
 	
-	# copy file into NAS
-	try:
-		shutil.copy(data, destination)
-		print(f"{data} moved successfully to {destination}")
-	except Exception as e:
-		print(f"Error moving file: {e}")
+	# copy file into nas if nas exists:
+	if os.path.exists(nas_base_dir):
+		try:
+			shutil.copy(data, destination)
+			print(f"{data} moved successfully to {destination}")
+		except Exception as e:
+			print(f"Error moving file: {e}")
+			traceback.print_exc()
 		
 	# add filename into tracking file:
 	fname = data.rsplit("/", 1)[1]
@@ -77,7 +79,7 @@ def write_to_store(platform, streamer, data, write_stage, stages=stages):
 	# write tracking file into the storage
 	try:
 		shutil.copy(trk_file, destination)
-		print(f"tracking file updated on NAS")
+		print(f"tracking file updated on designated storage")
 	except Exception as e:
 		print(f"Error moving tracking file: {e}")
 		
