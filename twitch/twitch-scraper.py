@@ -19,7 +19,7 @@ streamer_store = f"/mnt/NASpipe/twitch/data/{streamer}"
 # start live listener
 # once live, generate files then start scrape, 
 #   timeout will handle termination of scrape
-# write to nas
+# write to designated storage
 
 while twitch_sensor_check(url) == False:
 	print(f"{streamer} not live")
@@ -38,7 +38,7 @@ with open(filename, 'a+') as f:
 		chat.print_formatted(message) #terminal check
 	print(f"{streamer} is offline, done scraping")
 
-print(f"scrape complete, writing {streamer}'s data into NAS:")
+print(f"scrape complete, writing {streamer}'s data into Designated Storage.")
 
 
 write_to_store("twitch", streamer, filename, "raw")
